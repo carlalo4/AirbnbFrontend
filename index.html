@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload" 
+      data-client_id="1003908226799-sdqd1ftbc2km8c1i9lmb446fuppai62i.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse">
+    </div>
+    
+    
+    <title> Airbnb</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/jwt-decode.js"></script>
+    <script>
+      function handleCredentialResponse(response) {
+
+        const responsePayload = jwt_decode(response.credential);
+
+        console.log("ID: " + responsePayload.sub);
+        console.log('Full Name: ' + responsePayload.name);
+        console.log('Given Name: ' + responsePayload.given_name);
+        console.log('Family Name: ' + responsePayload.family_name);
+        console.log("Image URL: " + responsePayload.picture);
+        console.log("Email: " + responsePayload.email);
+
+
+        localStorage.setItem('Token', response.credential);
+        localStorage.setItem('NombreUsuario', responsePayload.email);
+        localStorage.setItem('Conexion', responsePayload.iat);
+        localStorage.setItem('Caducidad', responsePayload.exp);
+        localStorage.setItem('Log', 1)
+
+        location.reload();
+
+        
+        
+        alert("Bienvenido " + responsePayload.name)
+
+      }
+    </script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
